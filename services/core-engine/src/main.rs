@@ -1,3 +1,5 @@
+#![allow(dead_code)] // SaaS template: WIP request struct field 未使用、将来 handler で使う
+
 use axum::{
     extract::State,
     response::Json,
@@ -200,7 +202,7 @@ async fn collision(
 ) -> Json<CollisionResponse> {
     let t = Instant::now();
     let h = fnv1a(format!("{}:{}", req.body_a, req.body_b).as_bytes());
-    let detected = h % 3 != 0;
+    let detected = !h.is_multiple_of(3);
     let point = [
         (h % 100) as f64 * 0.1,
         ((h >> 8) % 100) as f64 * 0.1,
@@ -237,7 +239,7 @@ async fn raycast(
     let t = Instant::now();
     let max_dist = req.max_distance.unwrap_or(1000.0);
     let h = fnv1a(&req.origin[0].to_le_bytes());
-    let hit = h % 4 != 0;
+    let hit = !h.is_multiple_of(4);
     let dist = if hit {
         (h % (max_dist as u64).max(1)) as f64
     } else {
