@@ -12,14 +12,9 @@ dependencies = [
 ]
 
 [[package]]
-name = "alice-physics"
-version = "0.6.0"
-
-[[package]]
 name = "alice-physics-cloud-gateway"
 version = "0.1.0"
 dependencies = [
- "alice-physics",
  "axum",
  "serde",
  "serde_json",
